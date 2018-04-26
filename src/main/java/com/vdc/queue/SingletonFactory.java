@@ -34,8 +34,8 @@ public class SingletonFactory {
             Properties initialProperties = new Properties();
             initialProperties.setProperty(InitialContext.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
             initialProperties.setProperty(InitialContext.PROVIDER_URL, PROVIDER_URL);    
-            initialProperties.setProperty(InitialContext.SECURITY_PRINCIPAL, "jmsuser");
-            initialProperties.setProperty(InitialContext.SECURITY_CREDENTIALS, "jmsuser@123");
+            initialProperties.setProperty(InitialContext.SECURITY_PRINCIPAL, "guest");
+            initialProperties.setProperty(InitialContext.SECURITY_CREDENTIALS, "GuesT123");
 
             context = new InitialContext(initialProperties);
         }

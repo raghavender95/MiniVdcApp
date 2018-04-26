@@ -5,11 +5,13 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<annotation-driven/>
 
@@ -46,6 +48,22 @@
 		<beans:property name="username" value="root" />
 		<beans:property name="password" value="root" />
 	</beans:bean >
+	
+	<!-- JMS Template Configuration -->
+	<jee:jndi-lookup id="remoteConnectionFactory" jndi-name="java:jboss/exported/jms/RemoteConnectionFactory"/>
 
+	<!-- ActiveMQ Connection Factory -->
+	<beans:bean id="connectionFactory"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<beans:property name="targetConnectionFactory" ref="remoteConnectionFactory" />
+		<beans:property name="username" value="guest"></beans:property>
+		<beans:property name="password" value="GuesT123"></beans:property>
+	</beans:bean>
+	
+	<!-- JMS Template Class -->
+	<beans:bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<beans:property name="connectionFactory" ref="connectionFactory" />
+		<beans:property name="defaultDestinationName" value="ProcessingRequest" />
+	</beans:bean>
 
 </beans:beans>
